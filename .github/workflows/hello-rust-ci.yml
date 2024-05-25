@@ -22,4 +22,4 @@ jobs:
         uses: clechasseur/rs-cargo@v2
         with:
           command: build
-          args: --verbose --manifest-path hello-rust/Cargo.toml
+          args: --verbose --release --manifest-path hello-rust/Cargo.toml
