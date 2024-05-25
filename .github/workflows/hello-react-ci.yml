@@ -1,0 +1,24 @@
+name: Hello React CI
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'hello-react/**'
+      - '.github/workflows/hello-react-ci.yml'
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - uses: actions/cache@v3
+        with:
+          path: hello-react/node_modules
+          key: "${{ runner.os }}-node-${{ hashFiles('hello-react/package-lock.json') }}"
+      - run: npm ci --prefix hello-react
+      - run: npm test --prefix hello-react -- a --watchAll=false
+      - run: npm run build --prefix hello-react
