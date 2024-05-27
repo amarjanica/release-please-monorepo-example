@@ -1,0 +1,29 @@
+name: "Setup Node Environment"
+description: "Setup Node, cache and clean install"
+
+inputs:
+  node-version:
+    description: "the Node.js version to use"
+    required: true
+  cache-path:
+    description: "path to cache folders and files"
+    required: true
+  cache-key:
+    description: "the key for caching"
+    required: true
+  project:
+    description: "the path to project"
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: ${{inputs.node-version}}
+    - uses: actions/cache@v4
+      with:
+        path: ${{inputs.cache-path}}
+        key: ${{inputs.cache-key}}
+    - run: npm ci --prefix ${{inputs.project}}
+      shell: bash
