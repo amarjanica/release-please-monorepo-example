@@ -25,7 +25,8 @@ In this project `rust` and `node` are used.
 
 ## Learn More
 
-For detailed instructions on automating GitHub releases with Release Please, read my guide [Automate GitHub Releases with Release Please](https://www.amarjanica.com/automate-github-releases-with-release-please).
+For detailed instructions on automating GitHub releases with Release Please, read my guide [Automate GitHub Releases with Release Please](https://www.amarjanica.com/automate-github-releases-with-release-please)
+or [watch my youtube tutorial](https://youtu.be/70YgbPh6pXA).
 
 ## Contributing
 
