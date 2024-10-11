@@ -31,44 +31,44 @@ jobs:
           echo "${{ toJson(steps.release.outputs) }}"
 
 
-  release-hello-react:
-    if: ${{needs.release-please.outputs.hello-react--release_created}}
-    runs-on: ubuntu-latest
-    needs: release-please
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-node-env
-        with:
-          node-version: 18
-          cache-path: hello-react/node_modules
-          cache-key: "${{hashFiles('hello-react/package-lock.json')}}"
-          project: hello-react
-      - run: npm test --prefix hello-react -- a --watchAll=false
-      - run: npm run build --prefix hello-react
-      - run: zip -r hello-react-build.zip hello-react/build
-      - name: Upload Release Artifact
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload ${{ needs.release-please.outputs.hello-react--tag_name }} hello-react-build.zip
+  # release-hello-react:
+  #   if: ${{needs.release-please.outputs.hello-react--release_created}}
+  #   runs-on: ubuntu-latest
+  #   needs: release-please
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: ./.github/actions/setup-node-env
+  #       with:
+  #         node-version: 18
+  #         cache-path: hello-react/node_modules
+  #         cache-key: "${{hashFiles('hello-react/package-lock.json')}}"
+  #         project: hello-react
+  #     - run: npm test --prefix hello-react -- a --watchAll=false
+  #     - run: npm run build --prefix hello-react
+  #     - run: zip -r hello-react-build.zip hello-react/build
+  #     - name: Upload Release Artifact
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       run: gh release upload ${{ needs.release-please.outputs.hello-react--tag_name }} hello-react-build.zip
 
-  release-hello-rust:
-    if: ${{needs.release-please.outputs.hello-rust--release_created}}
-    runs-on: ubuntu-latest
-    needs: release-please
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-      - name: Test
-        uses: clechasseur/rs-cargo@v2
-        with:
-          command: test
-          args: --verbose --manifest-path hello-rust/Cargo.toml
-      - name: Build
-        uses: clechasseur/rs-cargo@v2
-        with:
-          command: build
-          args: --verbose --release --manifest-path hello-rust/Cargo.toml --target x86_64-unknown-linux-gnu
-      - name: Upload Release Artifact
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload ${{ needs.release-please.outputs.hello-rust--tag_name }} hello-rust/target/x86_64-unknown-linux-gnu/release/hello_rust
+  # release-hello-rust:
+  #   if: ${{needs.release-please.outputs.hello-rust--release_created}}
+  #   runs-on: ubuntu-latest
+  #   needs: release-please
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: dtolnay/rust-toolchain@stable
+  #     - name: Test
+  #       uses: clechasseur/rs-cargo@v2
+  #       with:
+  #         command: test
+  #         args: --verbose --manifest-path hello-rust/Cargo.toml
+  #     - name: Build
+  #       uses: clechasseur/rs-cargo@v2
+  #       with:
+  #         command: build
+  #         args: --verbose --release --manifest-path hello-rust/Cargo.toml --target x86_64-unknown-linux-gnu
+  #     - name: Upload Release Artifact
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       run: gh release upload ${{ needs.release-please.outputs.hello-rust--tag_name }} hello-rust/target/x86_64-unknown-linux-gnu/release/hello_rust
